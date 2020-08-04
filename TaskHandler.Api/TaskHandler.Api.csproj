@@ -127,10 +127,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskHandler.DataAccess\TaskHandler.DataAccess.csproj">
-      <Project>{FA354948-10B6-44E7-98EE-13EA38791AE4}</Project>
-      <Name>TaskHandler.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaskHandler.QueueService\TaskHandler.QueueService.csproj">
       <Project>{E73933D6-7871-4815-A723-65489BBB9BF0}</Project>
       <Name>TaskHandler.QueueService</Name>
