@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Messaging;
 using System.Threading.Tasks;
@@ -20,11 +20,10 @@ namespace TaskHandler.Updater
             _taskRepo = new TaskRepo(new TaskDbContext());
         }
 
-        public async Task ProcessTasks()
+        public async Task<TaskData[]> ProcessTasks()
         {
-            var tasks = _messageHandler.ReceiveAll(new BinaryMessageFormatter()).Select(x => x.Body as TaskData)?.ToArray();
-
-            tasks = new List<TaskData>() { new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" } }.ToArray();
+            var tasks = _messageHandler.ReceiveAll(new BinaryMessageFormatter())
+                                       .Select(x => x.Body as TaskData)?.ToArray() ?? new TaskData[0];
 
             _taskRepo.BeginTransaction();
 
@@ -32,6 +31,8 @@ namespace TaskHandler.Updater
                 await _taskRepo.AddAsync(task);
 
             _taskRepo.EndTransaction();
+
+            return tasks;
         }
     }
 }

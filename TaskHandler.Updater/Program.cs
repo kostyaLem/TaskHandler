@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace TaskHandler.Updater
 {
@@ -8,7 +7,7 @@ namespace TaskHandler.Updater
         static void Main(string[] args)
         {
             new Bootstrapper().Run();
-
+            
             Console.ReadKey();
         }
     }
