@@ -13,7 +13,12 @@ namespace TaskHandler.Data.Models
         [Required]
         public string Description { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]      
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public TimeSpan CreateTime { get; set; }
+
+        public override string ToString()
+        {
+            return $"ID: {TaskID}, Description: {Description}, CreateTime: {CreateTime:hh\\:mm\\:ss\\.f}";
+        }
     }
 }

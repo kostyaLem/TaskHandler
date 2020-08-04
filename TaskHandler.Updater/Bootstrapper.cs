@@ -21,9 +21,7 @@ namespace TaskHandler.Updater
 
         public void Run()
         {
-            new Mutex(true, "defauleApplicationName", out bool isCreated);
-
-            if (!isCreated)
+            if (Mutex.TryOpenExisting("ConsoleTaskUpdater", out Mutex _))
             {
                 Logger.Warn("Экземпляр приложения уже создан.");
                 Console.ReadKey();
@@ -41,8 +39,10 @@ namespace TaskHandler.Updater
                 var tasks = _taskUpdater.ProcessTasks().GetAwaiter().GetResult();
 
                 if (tasks.Length == 0)
-                
-                Logger.Info("Обработан список задач.", tasks);
+                    Logger.Info("Очередь сообщений пуста.");
+                else
+                    Logger.Info($"Обработан список задач. [{tasks.Length}]");
+
             }
             catch (Exception exc)
             {
