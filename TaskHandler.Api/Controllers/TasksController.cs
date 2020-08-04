@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
+using System.Messaging;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TaskHandler.Api.Models.Dtos;
-using TaskHandler.DataAccess.Models;
-using TaskHandler.DataAccess.Repositories;
+using TaskHandler.Data.Models;
+using TaskHandler.Data.Repositories;
 using TaskHandler.QueueService;
-using System.Messaging;
 
 namespace TaskHandler.Api.Controllers
 {
@@ -30,7 +30,7 @@ namespace TaskHandler.Api.Controllers
         public void CreateTask([FromBody] TaskDataDto taskDataDto)
         {
             _mapper.Map<TaskData>(taskDataDto);
-
+            
             _messageHandler.SendMessage(taskDataDto, new BinaryMessageFormatter());
         }
 

@@ -1,8 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using AutoMapper;
 using System.Web.Http;
-using TaskHandler.DataAccess;
-using TaskHandler.DataAccess.Repositories;
+using TaskHandler.Data;
+using TaskHandler.Data.Repositories;
 using TaskHandler.QueueService;
 
 namespace TaskHandler.Api.Infrastructure
@@ -23,23 +24,30 @@ namespace TaskHandler.Api.Infrastructure
 
         private static IContainer RegisterServices(ContainerBuilder builder)
         {
-            builder.RegisterApiControllers(System.Reflection.Assembly.GetExecutingAssembly());
-
             builder.RegisterType<TaskDbContext>()
-                   .InstancePerRequest();
+                    .InstancePerRequest();
+
+            builder.Register(c => new MapperConfiguration(cfg => cfg.AddProfile(new TaskDataProfile())))
+                    .AsSelf()
+                    .SingleInstance();
+
+            builder.Register(c => c.Resolve<MapperConfiguration>().CreateMapper(c.Resolve))
+                    .As<IMapper>()
+                    .InstancePerLifetimeScope();
 
             builder.RegisterType<MessageHandler>()
                    .As<IMessageHandler>()
                    .InstancePerRequest();
 
-            builder.RegisterGeneric(typeof(TaskRepo))
+            builder.RegisterType(typeof(TaskRepo))
                    .As(typeof(ITaskRepo))
                    .InstancePerRequest();
+
+            builder.RegisterApiControllers(System.Reflection.Assembly.GetExecutingAssembly());
 
             Container = builder.Build();
 
             return Container;
         }
-
     }
 }

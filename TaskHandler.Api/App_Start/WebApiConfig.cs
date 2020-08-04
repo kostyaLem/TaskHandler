@@ -7,8 +7,6 @@ namespace TaskHandler.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            AutofacWebapiConfig.Initialize(GlobalConfiguration.Configuration);
-
             // Маршруты веб-API
             config.MapHttpAttributeRoutes();
 

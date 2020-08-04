@@ -9,7 +9,7 @@ namespace TaskHandler.QueueService
         private readonly MessageQueue _messageQueue;
 
         public MessageHandler()
-        {
+        {            
             _messageQueue = MessageQueue.Exists(privatePath) ? new MessageQueue(privatePath) : MessageQueue.Create(privatePath);
         }
 
