@@ -7,7 +7,7 @@ namespace TaskHandler.Data
     public class TaskDbContext : DbContext
     {
         public TaskDbContext()
-            : base("name=MSSqlConnectionString")
+            : base("MSSqlConnectionString")
         {
         }
 

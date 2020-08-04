@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Messaging;
 using System.Threading.Tasks;
@@ -10,10 +12,11 @@ using TaskHandler.QueueService;
 
 namespace TaskHandler.Api.Controllers
 {
-    [Authorize]
     [Route("api/tasks")]
     public class TasksController : ApiController
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly ITaskRepo _taskRepo;
         private readonly IMessageHandler _messageHandler;
         private readonly IMapper _mapper;
@@ -27,20 +30,45 @@ namespace TaskHandler.Api.Controllers
 
         //POST /api/tasks
         [HttpPost]
-        public void CreateTask([FromBody] TaskDataDto taskDataDto)
+        public IHttpActionResult CreateTask([FromBody] TaskDataDto taskDataDto)
         {
-            _mapper.Map<TaskData>(taskDataDto);
-            
-            _messageHandler.SendMessage(taskDataDto, new BinaryMessageFormatter());
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var taskData = _mapper.Map<TaskData>(taskDataDto);
+
+                _messageHandler.SendMessage(taskData, new BinaryMessageFormatter());
+
+                Logger.Trace("Сообщение успешно добавлено в очередь");
+
+                return Ok();
+            }
+            catch (Exception exc)
+            {
+                Logger.Trace(exc, "Ошибка при добавлении задачи в очередь");
+                return BadRequest();
+            }
         }
 
         //GET /api/tasks
         [HttpGet]
-        public async Task<IEnumerable<TaskDataDto>> GetTasks()
+        public async Task<IHttpActionResult> GetTasks()
         {
-            var items = await _taskRepo.GetAllAsync();
+            try
+            {
+                var items = await _taskRepo.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<TaskDataDto>>(items);
+                Logger.Trace("Получен список задач", items);
+
+                return Ok(_mapper.Map<IEnumerable<TaskDataDto>>(items));
+            }
+            catch (Exception exc)
+            {
+                Logger.Trace(exc, "Ошибка при получении списка задач", exc);
+                return BadRequest();
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using TaskHandler.Api.Infrastructure;
 
 namespace TaskHandler.Api
 {
@@ -7,8 +6,10 @@ namespace TaskHandler.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Маршруты веб-API
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes
+                    .Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

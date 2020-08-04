@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskHandler.Data.Models
 {
+    [Serializable]
     public class TaskData
     {
         public int TaskID { get; set; }
