@@ -41,13 +41,13 @@ namespace TaskHandler.Api.Controllers
 
                 _messageHandler.SendMessage(taskData, new BinaryMessageFormatter());
 
-                Logger.Trace("Сообщение успешно добавлено в очередь");
+                Logger.Info("Сообщение успешно добавлено в очередь");
 
                 return Ok();
             }
             catch (Exception exc)
             {
-                Logger.Trace(exc, "Ошибка при добавлении задачи в очередь");
+                Logger.Error(exc, "Ошибка при добавлении задачи в очередь");
                 return BadRequest();
             }
         }
@@ -60,13 +60,13 @@ namespace TaskHandler.Api.Controllers
             {
                 var items = await _taskRepo.GetAllAsync();
 
-                Logger.Trace("Получен список задач", items);
+                Logger.Info("Получен список задач", items);
 
                 return Ok(_mapper.Map<IEnumerable<TaskDataDto>>(items));
             }
             catch (Exception exc)
             {
-                Logger.Trace(exc, "Ошибка при получении списка задач", exc);
+                Logger.Error(exc, "Ошибка при получении списка задач");
                 return BadRequest();
             }
         }

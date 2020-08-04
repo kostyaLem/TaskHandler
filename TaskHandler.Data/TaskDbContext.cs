@@ -22,7 +22,8 @@ namespace TaskHandler.Data
                 .Property(d => d.Description).IsRequired();
 
             modelBuilder.Entity<TaskData>()
-                .Property(t => t.CreateTime).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+                .Property(t => t.CreateTime)              
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             base.OnModelCreating(modelBuilder);
         }

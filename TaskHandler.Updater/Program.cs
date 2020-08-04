@@ -5,19 +5,11 @@ namespace TaskHandler.Updater
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
-            Mutex mutex = new Mutex(true, "defauleApplicationName", out bool isCreated);
+            new Bootstrapper().Run();
 
-            if (!isCreated)
-            {
-                Console.WriteLine("Обработчик собщений уже запущен...");
-                Console.ReadKey();
-            }
-
-
+            Console.ReadKey();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace TaskHandler.Data.Models
         [Required]
         public string Description { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]      
         public TimeSpan CreateTime { get; set; }
     }
 }
