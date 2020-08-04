@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskHandler.Data.Models;
+using TaskHandler.DataAccess.Models;
 
-namespace TaskHandler.Data
+namespace TaskHandler.DataAccess
 {
-    public class TaskContext : DbContext
+    public class TaskDbContext : DbContext
     {
         public DbSet<TaskData> Tasks { get; set; }
 
-        public TaskContext(DbContextOptions<TaskContext> options) : base(options)
+        public TaskDbContext()
         {
             Database.EnsureCreated();
         }

@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TaskHandler.Data.Models;
+using TaskHandler.DataAccess.Models;
 
-namespace TaskHandler.Data.Repositories
+namespace TaskHandler.DataAccess.Repositories
 {
     public class TaskRepo : ITaskRepo
     {
-        private readonly TaskContext _dbContext;
+        private readonly TaskDbContext _dbContext;
 
-        public TaskRepo(TaskContext context)
+        public TaskRepo(TaskDbContext context)
         {
             _dbContext = context;
         }
@@ -21,7 +21,7 @@ namespace TaskHandler.Data.Repositories
 
         public async Task AddAsync(TaskData taskInfo)
         {
-            _dbContext.Tasks.Add(taskInfo);
+            await _dbContext.Tasks.AddAsync(taskInfo);
             await _dbContext.SaveChangesAsync();
         }
 

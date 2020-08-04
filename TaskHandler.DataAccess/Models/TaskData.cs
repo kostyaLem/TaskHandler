@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskHandler.Data.Models
+namespace TaskHandler.DataAccess.Models
 {
     public class TaskData
     {
