@@ -7,6 +7,7 @@ namespace TaskHandler.Data.Models
     [Serializable]
     public class TaskData
     {
+        [Key]
         public int TaskID { get; set; }
 
         [Required]

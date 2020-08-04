@@ -1,6 +1,9 @@
 ﻿using NLog;
 using System;
+using System.Diagnostics;
 using System.Threading;
+using TaskHandler.Data;
+using TaskHandler.Data.Models;
 
 namespace TaskHandler.Updater
 {

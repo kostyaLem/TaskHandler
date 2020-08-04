@@ -22,16 +22,14 @@ namespace TaskHandler.Updater
 
         public async Task ProcessTasks()
         {
-            var tasks = _messageHandler.ReceiveAll(new BinaryMessageFormatter()).Select(x => x.Body as TaskData).ToArray();
+            var tasks = _messageHandler.ReceiveAll(new BinaryMessageFormatter()).Select(x => x.Body as TaskData)?.ToArray();
 
             tasks = new List<TaskData>() { new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" }, new TaskData() { Description = "ewrq" } }.ToArray();
 
             _taskRepo.BeginTransaction();
 
             foreach (var task in tasks)
-            {
                 await _taskRepo.AddAsync(task);
-            }
 
             _taskRepo.EndTransaction();
         }

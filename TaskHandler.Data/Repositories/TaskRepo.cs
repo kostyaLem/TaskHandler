@@ -37,15 +37,13 @@ namespace TaskHandler.Data.Repositories
 
         public void EndTransaction()
         {
-            _transaction.Rollback();
-
             try
             {
                 _transaction?.Commit();
             }
             catch (Exception exc)
             {
-                
+                _transaction.Rollback();
                 throw exc;
             }
         }

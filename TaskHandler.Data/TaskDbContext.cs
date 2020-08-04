@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using TaskHandler.Data.Migrations;
 using TaskHandler.Data.Models;
 
 namespace TaskHandler.Data
@@ -7,8 +8,9 @@ namespace TaskHandler.Data
     public class TaskDbContext : DbContext
     {
         public TaskDbContext()
-            : base("MSSqlConnectionString")
+            : base(@"data source=.\sqlexpress;initial catalog=TasksDb;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<TaskDbContext, Configuration>());
         }
 
         public virtual DbSet<TaskData> Tasks { get; set; }
@@ -22,7 +24,7 @@ namespace TaskHandler.Data
                 .Property(d => d.Description).IsRequired();
 
             modelBuilder.Entity<TaskData>()
-                .Property(t => t.CreateTime)              
+                .Property(t => t.CreateTime)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
 
             base.OnModelCreating(modelBuilder);

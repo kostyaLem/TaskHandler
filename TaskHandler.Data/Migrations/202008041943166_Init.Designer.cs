@@ -13,7 +13,7 @@ namespace TaskHandler.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202008041852182_Init"; }
+            get { return "202008041943166_Init"; }
         }
         
         string IMigrationMetadata.Source
